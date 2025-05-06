@@ -781,7 +781,34 @@ namespace UnityHFSM
 			(activeState as IActionable<TEvent>)?.OnAction<TData>(trigger, data);
 		}
 
-		public StateBase<TStateId> GetState(TStateId name)
+        /// <summary>
+        /// Runs an action on the currently active state. Returns true if the active state listens to the action, otherwise false.
+        /// </summary>
+        /// <param name="trigger">Name of the action.</param>
+        public bool TryAction(TEvent trigger)
+        {
+            EnsureIsInitializedFor("Running OnAction of the active state");
+            var actionable = activeState as IActionable<TEvent>;
+            actionable?.OnAction(trigger);
+            return actionable != null;
+        }
+
+        /// <summary>
+        /// Runs an action on the currently active state and lets you pass one data parameter. Returns true if the active state listens to the action, otherwise false
+        /// </summary>
+        /// <param name="trigger">Name of the action.</param>
+        /// <param name="data">Any custom data for the parameter.</param>
+        /// <typeparam name="TData">Type of the data parameter.
+        /// 	Should match the data type of the action that was added via <c>AddAction&lt;T&gt;(...).</c></typeparam>
+        public bool TryAction<TData>(TEvent trigger, TData data)
+        {
+            EnsureIsInitializedFor("Running OnAction of the active state");
+            var actionable = activeState as IActionable<TEvent>;
+            actionable?.OnAction<TData>(trigger, data);
+            return actionable != null;
+        }
+
+        public StateBase<TStateId> GetState(TStateId name)
 		{
 			StateBundle bundle;
 
