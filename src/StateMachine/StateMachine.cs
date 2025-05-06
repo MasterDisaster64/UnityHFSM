@@ -782,6 +782,7 @@ namespace UnityHFSM
 		}
 
         /// <summary>
+		/// Never mind: this is broken :(
         /// Runs an action on the currently active state. Returns true if the active state listens to the action, otherwise false.
         /// </summary>
         /// <param name="trigger">Name of the action.</param>
